@@ -4,6 +4,9 @@
   "description": "A web interface for memoria-exorior.",
   "author": "TempleCloud <tim.langford@gmail.com>",
   "private": true,
+  "babel": {
+    "presets": ["env"]
+  },
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
