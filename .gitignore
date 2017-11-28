@@ -1,1 +1,5 @@
 node_modules
+dist/
+selenium-debug.log
+test/e2e/reports/
+test/unit/coverage/
