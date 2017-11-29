@@ -1,10 +1,33 @@
 <template>
-  <div>
-    <ul>
-        <li v-for="fact in facts" v-bind:key='fact.id'>
-            {{ fact.title }} {{ fact.question }} {{ fact.answer }}
-        </li>
-    </ul> 
+    <div>
+        <div>
+            <p>Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
+            <p>Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
+        </div>
+        <div class='ui centered card' v-for="fact in facts" v-bind:key='fact.id'>
+            <div class='content'>
+                <div class='header'>
+                {{ fact.title }}
+                </div>
+                <div class='meta'>
+                {{ fact.question }}
+                </div>
+                <div class='meta'>
+                {{ fact.answer }}
+                </div>
+                <div class='extra content'>
+                    <span class='right floated edit icon'>
+                        <i class='edit icon'></i>
+                    </span>
+                </div>
+            </div>
+            <div class='ui bottom attached green basic button' v-show="fact.done">
+                Done
+            </div>
+            <div class='ui bottom attached red basic button' v-show="!fact.done">
+                Learn
+            </div>
+        </div>
   </div>
 </template>
 
