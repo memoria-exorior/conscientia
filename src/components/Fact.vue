@@ -15,6 +15,9 @@
                 <span class='right floated edit icon' v-on:click="showForm">
                     <i class='edit icon'></i>
                 </span>
+                <span class='right floated trash icon' v-on:click="deleteFact(fact)">
+                    <i class='trash icon'></i>
+                </span>
             </div>
         </div>
         <!-- Edit -->
@@ -64,6 +67,9 @@ export default {
     },
     hideForm () {
       this.isEditing = false
+    },
+    deleteFact (fact) {
+      this.$emit('delete-fact', fact)
     }
   }
 }
