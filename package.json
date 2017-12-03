@@ -19,7 +19,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "sweetalert": "^2.0.8",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
@@ -68,6 +67,7 @@
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "sweetalert2": "^7.0.6",
     "url-loader": "^0.5.8",
     "vue-jest": "^1.0.2",
     "vue-loader": "^13.3.0",

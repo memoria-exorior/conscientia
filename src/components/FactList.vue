@@ -4,15 +4,14 @@
         <p class="facts">Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
         <fact v-on:delete-fact="deleteFact"  
               v-on:learnt-fact="learntFact" 
-              v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id'
-              >
+              v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id'>
         </fact>
         <fact-creator v-on:add-fact="addFact"></fact-creator>
     </div>
 </template>
 
 <script type = "text/javascript" >
-import swal from 'sweetalert'
+import swal from 'sweetalert2'
 
 import FactCreator from '@/components/FactCreator'
 import Fact from '@/components/Fact'
@@ -32,21 +31,11 @@ export default {
         title: 'Are you sure?',
         text: 'This fact will be permanently deleted!',
         icon: 'warning',
-        buttons: {
-          cancel: {
-            closeModal: true,
-            visible: true,
-            text: 'Cancel'
-          },
-          confirm: {
-            closeModal: true,
-            visible: true,
-            color: '#DD6B55',
-            text: 'Yes, delete it!'
-          }
-        }
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        confirmButtonColor: '#DD6B55'
       }).then((result) => {
-        if (result) {
+        if (result.value) {
           const factIdx = this.facts.indexOf(fact)
           this.facts.splice(factIdx, 1)
           swal('Deleted!', 'Your fact has been deleted.', 'success')
@@ -56,7 +45,12 @@ export default {
     learntFact (fact) {
       const factIdx = this.facts.indexOf(fact)
       this.facts[factIdx].done = true
-      swal('Success!', 'Fact Learnt!', 'success')
+      swal({
+        type: 'success',
+        text: 'Fact Learnt!',
+        showConfirmButton: false,
+        timer: 1000
+      })
     }
   },
   data () {
