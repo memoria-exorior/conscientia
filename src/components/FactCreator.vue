@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
+
 export default {
   data () {
     return {
@@ -64,6 +66,7 @@ export default {
         })
       }
       this.isCreating = false
+      swal('Success!', 'Created a new fact!', 'success')
     }
   }
 }

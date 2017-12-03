@@ -12,6 +12,7 @@
 </template>
 
 <script type = "text/javascript" >
+import swal from 'sweetalert'
 
 import FactCreator from '@/components/FactCreator'
 import Fact from '@/components/Fact'
@@ -27,12 +28,35 @@ export default {
       this.facts.push(fact)
     },
     deleteFact (fact) {
-      const factIdx = this.facts.indexOf(fact)
-      this.facts.splice(factIdx, 1)
+      swal({
+        title: 'Are you sure?',
+        text: 'This fact will be permanently deleted!',
+        icon: 'warning',
+        buttons: {
+          cancel: {
+            closeModal: true,
+            visible: true,
+            text: 'Cancel'
+          },
+          confirm: {
+            closeModal: true,
+            visible: true,
+            color: '#DD6B55',
+            text: 'Yes, delete it!'
+          }
+        }
+      }).then((result) => {
+        if (result) {
+          const factIdx = this.facts.indexOf(fact)
+          this.facts.splice(factIdx, 1)
+          swal('Deleted!', 'Your fact has been deleted.', 'success')
+        }
+      })
     },
     learntFact (fact) {
       const factIdx = this.facts.indexOf(fact)
       this.facts[factIdx].done = true
+      swal('Success!', 'Fact Learnt!', 'success')
     }
   },
   data () {
