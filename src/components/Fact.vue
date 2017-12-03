@@ -43,11 +43,11 @@
             </div>
         </div>
         <!-- Buttons -->
-        <div class='ui bottom attached green basic button' v-show="!isEditing && fact.done">
+        <div class='ui bottom attached green basic button' v-show="!isEditing && fact.done" disabled>
             Done
         </div>
-        <div class='ui bottom attached red basic button' v-show="!isEditing && !fact.done">
-            Learn
+        <div class='ui bottom attached red basic button' v-on:click='learntFact(fact)' v-show="!isEditing && !fact.done">
+            Learnt?
         </div>
     </div>
 </template>
@@ -70,6 +70,10 @@ export default {
     },
     deleteFact (fact) {
       this.$emit('delete-fact', fact)
+    },
+    learntFact (fact) {
+      console.log('trjl> emitting learnt-fact')
+      this.$emit('learnt-fact', fact)
     }
   }
 }

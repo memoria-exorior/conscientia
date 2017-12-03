@@ -2,7 +2,11 @@
     <div>
         <p class="facts">Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
         <p class="facts">Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
-        <fact v-on:delete-fact="deleteFact" v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id' ></fact>
+        <fact v-on:delete-fact="deleteFact"  
+              v-on:learnt-fact="learntFact" 
+              v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id'
+              >
+        </fact>
         <fact-creator v-on:add-fact="addFact"></fact-creator>
     </div>
 </template>
@@ -25,6 +29,11 @@ export default {
     deleteFact (fact) {
       const factIdx = this.facts.indexOf(fact)
       this.facts.splice(factIdx, 1)
+    },
+    learntFact (fact) {
+      console.log('trjl> recieving factLearnt')
+      const factIdx = this.facts.indexOf(fact)
+      this.facts[factIdx].done = true
     }
   },
   data () {
