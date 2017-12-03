@@ -1,39 +1,21 @@
 <template>
     <div>
-        <div>
-            <p>Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
-            <p>Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
-        </div>
-        <div class='ui centered card' v-for="fact in facts" v-bind:key='fact.id'>
-            <div class='content'>
-                <div class='header'>
-                {{ fact.title }}
-                </div>
-                <div class='meta'>
-                {{ fact.question }}
-                </div>
-                <div class='meta'>
-                {{ fact.answer }}
-                </div>
-                <div class='extra content'>
-                    <span class='right floated edit icon'>
-                        <i class='edit icon'></i>
-                    </span>
-                </div>
-            </div>
-            <div class='ui bottom attached green basic button' v-show="fact.done">
-                Done
-            </div>
-            <div class='ui bottom attached red basic button' v-show="!fact.done">
-                Learn
-            </div>
-        </div>
-  </div>
+        <p class="facts">Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
+        <p class="facts">Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
+        <!-- <fact v-for="fact in facts" v-bind:key='fact'></fact> -->
+        <fact v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id' ></fact>
+    </div>
 </template>
 
 <script type = "text/javascript" >
+
+import Fact from '@/components/Fact'
+
 export default {
   name: 'FactList',
+  components: {
+    'fact': Fact
+  },
   data () {
     return {
       facts: [
@@ -64,5 +46,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+p.facts {
+  text-align: center;
+}
 </style>
