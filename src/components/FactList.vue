@@ -33,12 +33,20 @@ export default {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
-        confirmButtonColor: '#DD6B55'
+        confirmButtonColor: '#DD6B55',
+        reverseButtons: true
       }).then((result) => {
         if (result.value) {
           const factIdx = this.facts.indexOf(fact)
           this.facts.splice(factIdx, 1)
-          swal('Deleted!', 'Your fact has been deleted.', 'success')
+          // swal('Deleted!', 'Your fact has been deleted.', 'success')
+          swal({
+            type: 'success',
+            title: 'Deleted!',
+            text: 'Your fact has been deleted.',
+            showConfirmButton: false,
+            timer: 1000
+          })
         }
       })
     },
