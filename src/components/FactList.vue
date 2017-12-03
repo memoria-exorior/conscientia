@@ -31,7 +31,6 @@ export default {
       this.facts.splice(factIdx, 1)
     },
     learntFact (fact) {
-      console.log('trjl> recieving factLearnt')
       const factIdx = this.facts.indexOf(fact)
       this.facts[factIdx].done = true
     }

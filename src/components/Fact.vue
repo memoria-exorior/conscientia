@@ -72,7 +72,6 @@ export default {
       this.$emit('delete-fact', fact)
     },
     learntFact (fact) {
-      console.log('trjl> emitting learnt-fact')
       this.$emit('learnt-fact', fact)
     }
   }
