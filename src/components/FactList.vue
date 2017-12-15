@@ -3,14 +3,16 @@
         <p class="facts">Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
         <p class="facts">Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
         <fact v-on:delete-fact="deleteFact"  
-              v-on:learnt-fact="learntFact" 
-              v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.id'>
+              v-on:learnt-fact="learntFact"
+              v-on:edit-fact="editFact" 
+              v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.uuid'>
         </fact>
         <fact-creator v-on:add-fact="addFact"></fact-creator>
     </div>
 </template>
 
 <script type = "text/javascript" >
+import axios from 'axios'
 import swal from 'sweetalert2'
 
 import FactCreator from '@/components/FactCreator'
@@ -22,33 +24,39 @@ export default {
     'fact': Fact,
     'fact-creator': FactCreator
   },
+  created () {
+    this.listFact()
+  },
   methods: {
+    listFact () {
+      axios.get('http://localhost:8888/api/fact/facts/')
+      .then(response => {
+        this.facts = response.data.items
+      }).catch(e => {
+        this.errors.push(e)
+      })
+    },
     addFact (fact) {
-      this.facts.push(fact)
+      delete fact['done']
+      fact.labels = [fact.labels]
+      fact.owner = 'temple'
+      axios.post('http://localhost:8888/api/fact/facts/', fact)
+      .then(response => {
+        console.log('trjl> added fact response: ' + JSON.stringify(response))
+        // this.facts.push(fact)
+        this.facts.push(response.data)
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
     },
     deleteFact (fact) {
-      swal({
-        title: 'Are you sure?',
-        text: 'This fact will be permanently deleted!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        confirmButtonColor: '#DD6B55',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-          const factIdx = this.facts.indexOf(fact)
-          this.facts.splice(factIdx, 1)
-          // swal('Deleted!', 'Your fact has been deleted.', 'success')
-          swal({
-            type: 'success',
-            title: 'Deleted!',
-            text: 'Your fact has been deleted.',
-            showConfirmButton: false,
-            timer: 1000
-          })
-        }
-      })
+      console.log('trjl> delete fact: ' + JSON.stringify(fact))
+      const factIdx = this.facts.indexOf(fact)
+      this.facts.splice(factIdx, 1)
+    },
+    editFact (fact) {
+      console.log('trjl> editFact: ' + fact)
     },
     learntFact (fact) {
       const factIdx = this.facts.indexOf(fact)
@@ -65,27 +73,28 @@ export default {
     return {
       facts: [
         {
-          id: uuid(),
-          title: 'Fact A',
+          uuid: uuid(),
           question: 'Question A',
           answer: 'Answer A',
+          labels: ['fact-a'],
           done: false
         },
         {
-          id: uuid(),
-          title: 'Fact B',
+          uuid: uuid(),
           question: 'Question B',
           answer: 'Answer B',
+          labels: ['fact-b'],
           done: false
         },
         {
-          id: uuid(),
-          title: 'Fact C',
+          uuid: uuid(),
           question: 'Question C',
           answer: 'Answer C',
+          labels: ['fact-b'],
           done: false
         }
-      ]
+      ],
+      errors: []
     }
   }
 }
