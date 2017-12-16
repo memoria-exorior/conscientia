@@ -12,7 +12,6 @@
 </template>
 
 <script type = "text/javascript" >
-// import axios from 'axios'
 import swal from 'sweetalert2'
 
 import FactCreator from '@/components/FactCreator'
@@ -42,7 +41,6 @@ export default {
     },
     addFact (fact) {
       delete fact['done']
-      fact.labels = [fact.labels]
       fact.owner = 'temple'
       factClient.post('facts/', fact)
       .then(response => {

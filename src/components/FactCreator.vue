@@ -14,9 +14,15 @@
               <label>Answer</label>
               <input type='text' v-model="answer" ref='answer' defaultValue="">
           </div>
+          <!--
           <div class='field'>
             <label>Labels</label>
             <input type='text' v-model="labels" ref='labels' defaultValue="">
+          </div>
+          -->
+          <div class='field'>
+            <label>Labels</label>
+            <input-tag placeholder='add-tag' :tags='labels'></input-tag>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -34,18 +40,25 @@
 
 <script>
 import swal from 'sweetalert2'
+import InputTag from 'vue-input-tag'
 
 export default {
+  components: {
+    InputTag
+  },
   data () {
     return {
       owner: '',
-      labels: '',
+      labels: [],
       question: '',
       answer: '',
       isCreating: false
     }
   },
   methods: {
+    createLabel () {
+      console.log('createLbael...')
+    },
     openForm () {
       this.isCreating = true
     },

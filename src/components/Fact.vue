@@ -31,9 +31,15 @@
                     <label>Answer</label>
                     <input type='text' v-model="fact.answer" >
                 </div>
+                <!-- 
                 <div class='field'>
                     <label>Labels</label>
                     <input type='text' v-model="fact.labels" >
+                </div>
+                -->
+                <div class='field'>
+                    <label>Labels</label>
+                    <input-tag placeholder='add-tag' :tags='fact.labels'></input-tag>
                 </div>
                 <div class='ui two button attached buttons'>
                 <button class='ui basic blue button' v-on:click="hideForm(fact)">
@@ -54,12 +60,16 @@
 
 <script type = "text/javascript" >
 import swal from 'sweetalert2'
+import InputTag from 'vue-input-tag'
 
 import {factClient} from '@/components/fact-client'
 
 export default {
   name: 'Fact',
   props: ['fact'],
+  components: {
+    InputTag
+  },
   data () {
     return {
       isEditing: false,
@@ -73,10 +83,10 @@ export default {
     hideForm (fact) {
       this.isEditing = false
       delete fact['done']
-      fact.labels = [fact.labels]
       fact.owner = 'temple'
       factClient.put('facts/' + fact.uuid, fact)
       .then(response => {
+        fact.done = false
         this.$emit('update-fact', fact)
       })
       .catch(e => {
