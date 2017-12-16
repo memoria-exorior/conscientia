@@ -53,21 +53,15 @@
 </template>
 
 <script type = "text/javascript" >
-import axios from 'axios'
 import swal from 'sweetalert2'
+
+import {factClient} from '@/components/fact-client'
 
 export default {
   name: 'Fact',
   props: ['fact'],
   data () {
     return {
-    //   fact: {
-    //     uuid: '', // uuid(),
-    //     question: 'Question A',
-    //     answer: 'Answer A',
-    //     labels: ['fact-a'],
-    //     done: false
-    //   },
       isEditing: false,
       errors: []
     }
@@ -81,15 +75,14 @@ export default {
       delete fact['done']
       fact.labels = [fact.labels]
       fact.owner = 'temple'
-      axios.put('http://localhost:8888/api/fact/facts/' + fact.uuid, fact)
+      factClient.put('facts/' + fact.uuid, fact)
       .then(response => {
-        console.log('trjl> updated fact response: ' + JSON.stringify(response))
+        this.$emit('update-fact', fact)
       })
       .catch(e => {
-        console.log('trjl> adding fact error: ' + JSON.stringify(e))
-        // this.errors.push(e)
+        console.log('update fact error: ' + JSON.stringify(e))
+        this.errors.push(e)
       })
-      this.$emit('edit-fact', fact)
     },
     deleteFact (fact) {
       swal({
@@ -102,7 +95,7 @@ export default {
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-          axios.delete('http://localhost:8888/api/fact/facts/' + fact.uuid)
+          factClient.delete('facts/' + fact.uuid)
             .then(response => {
               swal({
                 type: 'success',
@@ -113,7 +106,7 @@ export default {
               })
             })
             .catch(e => {
-              console.log('trjl> delete fact error: ' + JSON.stringify(e))
+              console.log('delete fact error: ' + JSON.stringify(e))
             })
         }
       })

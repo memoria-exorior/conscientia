@@ -3,8 +3,8 @@
         <p class="facts">Learnt Facts  : {{facts.filter(fact => {return fact.done === true}).length}}</p>
         <p class="facts">Learning Facts: {{facts.filter(fact => {return fact.done === false}).length}}</p>
         <fact v-on:delete-fact="deleteFact"  
+              v-on:update-fact="editFact" 
               v-on:learnt-fact="learntFact"
-              v-on:edit-fact="editFact" 
               v-for="fact in facts" v-bind:fact="fact" v-bind:key='fact.uuid'>
         </fact>
         <fact-creator v-on:add-fact="addFact"></fact-creator>
@@ -12,11 +12,12 @@
 </template>
 
 <script type = "text/javascript" >
-import axios from 'axios'
+// import axios from 'axios'
 import swal from 'sweetalert2'
 
 import FactCreator from '@/components/FactCreator'
 import Fact from '@/components/Fact'
+import {factClient} from '@/components/fact-client'
 
 export default {
   name: 'FactList',
@@ -29,8 +30,11 @@ export default {
   },
   methods: {
     listFact () {
-      axios.get('http://localhost:8888/api/fact/facts/')
+      factClient.get('facts/')
       .then(response => {
+        response.data.items.forEach(function (fact) {
+          fact.done = false
+        })
         this.facts = response.data.items
       }).catch(e => {
         this.errors.push(e)
@@ -40,23 +44,22 @@ export default {
       delete fact['done']
       fact.labels = [fact.labels]
       fact.owner = 'temple'
-      axios.post('http://localhost:8888/api/fact/facts/', fact)
+      factClient.post('facts/', fact)
       .then(response => {
-        console.log('trjl> added fact response: ' + JSON.stringify(response))
-        // this.facts.push(fact)
+        response.data.done = false
         this.facts.push(response.data)
       })
       .catch(e => {
+        console.log('create fact error: ' + JSON.stringify(e))
         this.errors.push(e)
       })
     },
     deleteFact (fact) {
-      console.log('trjl> delete fact: ' + JSON.stringify(fact))
       const factIdx = this.facts.indexOf(fact)
       this.facts.splice(factIdx, 1)
     },
     editFact (fact) {
-      console.log('trjl> editFact: ' + fact)
+
     },
     learntFact (fact) {
       const factIdx = this.facts.indexOf(fact)
