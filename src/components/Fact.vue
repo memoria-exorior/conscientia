@@ -1,5 +1,5 @@
 <template>
-    <div class='ui centered card'>
+    <div class='ui centered card big'>
         <!-- Display -->
         <div class='content' v-show="!isEditing">
             <div class='header'>
@@ -31,15 +31,9 @@
                     <label>Answer</label>
                     <input type='text' v-model="fact.answer" >
                 </div>
-                <!-- 
                 <div class='field'>
                     <label>Labels</label>
-                    <input type='text' v-model="fact.labels" >
-                </div>
-                -->
-                <div class='field'>
-                    <label>Labels</label>
-                    <input-tag placeholder='add-tag' :tags='fact.labels'></input-tag>
+                    <input-tag class='ui-input-tag ui-input-tag-label' placeholder='Add label' :tags='fact.labels'></input-tag>
                 </div>
                 <div class='ui two button attached buttons'>
                 <button class='ui basic blue button' v-on:click="hideForm(fact)">
@@ -63,6 +57,8 @@ import swal from 'sweetalert2'
 import InputTag from 'vue-input-tag'
 
 import {factClient} from '@/components/fact-client'
+
+// ui.card {width: 600ox }
 
 export default {
   name: 'Fact',
@@ -129,5 +125,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.big {
+  width: 600px ! important;
+  min-height: 400px ! important;
+}
+.ui-input-tag {
+  padding-left: 0px;
+  border: unset;
+}
+.ui-input-tag-label >>> span {
+  color: black;
+  background-color: lightgrey;
+  border-color: grey;
+}
 </style>

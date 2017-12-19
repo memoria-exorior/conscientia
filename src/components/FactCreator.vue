@@ -14,12 +14,6 @@
               <label>Answer</label>
               <input type='text' v-model="answer" ref='answer' defaultValue="">
           </div>
-          <!--
-          <div class='field'>
-            <label>Labels</label>
-            <input type='text' v-model="labels" ref='labels' defaultValue="">
-          </div>
-          -->
           <div class='field'>
             <label>Labels</label>
             <input-tag placeholder='add-tag' :tags='labels'></input-tag>
