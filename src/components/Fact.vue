@@ -2,14 +2,14 @@
     <div class='ui centered card big'>
         <!-- Display -->
         <div class='content' v-show="!isEditing">
+            <div class='meta'>
+              <input-tag class='label-display label-edit' read-only :tags='fact.labels'></input-tag>
+            </div>
             <div class='header'>
             {{ fact.question }}
             </div>
             <div class='meta'>
             {{ fact.answer }}
-            </div>
-            <div class='meta'>
-            {{ fact.labels }}
             </div>
             <div class='extra content'>
                 <span class='right floated edit icon' v-on:click="showForm">
@@ -24,16 +24,16 @@
         <div class="content" v-show="isEditing">
             <div class='ui form'>
                 <div class='field'>
+                    <label>Labels</label>
+                    <input-tag class='ui-input-tag label-edit' placeholder='Add label' :tags='fact.labels'></input-tag>
+                </div>
+                <div class='field'>
                     <label>Question</label>
                     <input type='text' v-model="fact.question" >
                 </div>
                 <div class='field'>
                     <label>Answer</label>
                     <input type='text' v-model="fact.answer" >
-                </div>
-                <div class='field'>
-                    <label>Labels</label>
-                    <input-tag class='ui-input-tag ui-input-tag-label' placeholder='Add label' :tags='fact.labels'></input-tag>
                 </div>
                 <div class='ui two button attached buttons'>
                 <button class='ui basic blue button' v-on:click="hideForm(fact)">
@@ -57,8 +57,6 @@ import swal from 'sweetalert2'
 import InputTag from 'vue-input-tag'
 
 import {factClient} from '@/components/fact-client'
-
-// ui.card {width: 600ox }
 
 export default {
   name: 'Fact',
@@ -134,7 +132,10 @@ export default {
   padding-left: 0px;
   border: unset;
 }
-.ui-input-tag-label >>> span {
+.label-display {
+  border:  unset;
+}
+.label-edit >>> span {
   color: black;
   background-color: lightgrey;
   border-color: grey;
