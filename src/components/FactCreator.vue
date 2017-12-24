@@ -7,16 +7,16 @@
       <div class='content'>
         <div class='ui form'>
           <div class='field'>
-            <label>Title</label>
-            <input type='text' v-model="title" ref='title' defaultValue="">
-          </div>
-          <div class='field'>
               <label>Question</label>
               <input type='text' v-model="question" ref='question' defaultValue="">
           </div>
           <div class='field'>
               <label>Answer</label>
               <input type='text' v-model="answer" ref='answer' defaultValue="">
+          </div>
+          <div class='field'>
+            <label>Labels</label>
+            <input-tag placeholder='add-tag' :tags='labels'></input-tag>
           </div>
           <div class='ui two button attached buttons'>
             <button class='ui basic blue button' v-on:click="sendForm()">
@@ -34,17 +34,25 @@
 
 <script>
 import swal from 'sweetalert2'
+import InputTag from 'vue-input-tag'
 
 export default {
+  components: {
+    InputTag
+  },
   data () {
     return {
-      title: '',
+      owner: '',
+      labels: [],
       question: '',
       answer: '',
       isCreating: false
     }
   },
   methods: {
+    createLabel () {
+      console.log('createLbael...')
+    },
     openForm () {
       this.isCreating = true
     },
@@ -52,14 +60,14 @@ export default {
       this.isCreating = false
     },
     sendForm () {
-      if (this.title.length > 0 && this.question.length > 0 && this.answer.length > 0) {
-        const title = this.title
+      if (this.labels.length > 0 && this.question.length > 0 && this.answer.length > 0) {
+        const labels = this.labels
         const question = this.question
         const answer = this.answer
-        const id = uuid()
+        const uuid = genuuid()
         this.$emit('add-fact', {
-          id,
-          title,
+          uuid,
+          labels,
           question,
           answer,
           done: false
@@ -76,7 +84,7 @@ export default {
   }
 }
 
-function uuid () {
+function genuuid () {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = Math.random() * 16 | 0
     var v = c === 'x' ? r : (r & 0x3 | 0x8)
